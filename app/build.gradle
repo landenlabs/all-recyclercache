@@ -1,20 +1,19 @@
 // all-recycler-cache
 plugins {
     id ("com.android.application")
-    id ("org.jetbrains.kotlin.android") // Prevents duplicate kotlin warnings
 }
 
 android {
-    compileSdk 35
-    namespace "com.all.recyclercache"
+    compileSdk = 36
+    namespace = "com.all.recyclercache"
 
     defaultConfig {
-        applicationId "com.all.recyclercache"
-        minSdkVersion 23
-        targetSdkVersion 35
+        applicationId = "com.all.recyclercache"
+        minSdk = 23
+        targetSdk = 36
 
-        versionCode 10630
-        versionName '1.6.30'
+        versionCode = 10630
+        versionName = '1.6.30'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -22,12 +21,9 @@ android {
         resConfigs "en", "es"
 
         buildConfigField "long", "BuildTimeMilli", System.currentTimeMillis() + "L"
-    }
 
-
-    // Save app version in string so resource can be used in layouts
-    applicationVariants.configureEach { variant ->
-        variant.resValue "string", "versionName", "v" + variant.versionName
+        // Save app version in string so resource can be used in layouts
+        resValue "string", "versionName", "v" + versionName
     }
 
     signingConfigs {
@@ -47,18 +43,19 @@ android {
     }
 
     buildFeatures.buildConfig = true
+    buildFeatures.resValues = true
 
     buildTypes {
         release {
             // Enables code shrinking, obfuscation, and optimization.
-            minifyEnabled true
+            minifyEnabled = true
 
             // List of resources removed at end of generated mapping file:
             // grep unused ./app/build/outputs/mapping/demoRelease/resources.txt
-            shrinkResources true
+            shrinkResources = true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.release
 
             ndk {
                 // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
@@ -79,16 +76,21 @@ android {
 
 dependencies {
     // Add Android support libraries
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation "androidx.annotation:annotation:1.9.1"
+    implementation 'androidx.appcompat:appcompat:1.8.0'
+    implementation "androidx.annotation:annotation:1.10.0"
     implementation "androidx.recyclerview:recyclerview:1.4.0"
 }
 
 // Rename app
-android.applicationVariants.configureEach { variant ->
-    variant.outputs.configureEach {
+androidComponents {
+    onVariants(selector().all(), { variant ->
         def ourName = project.parent.name
-        outputFileName = "$ourName-${variant.name}-${variant.versionName}.apk"
-        println "out name= $outputFileName"
-    }
+        def versionStr = variant.outputs[0].versionName.get()
+        def newName = "$ourName-${variant.name}-${versionStr}"
+
+        variant.outputs.forEach { output ->
+            output.outputFileName.set("${newName}.apk")
+        }
+        println "out name= ${newName}.apk"
+    })
 }

@@ -78,3 +78,23 @@ There is no reuse and ViewType has no impact on memory savings.
 <img src="images/reuse-5.jpg" width="300">
 <img src="images/unique-5.jpg" width="300">
 </p>
+
+### License
+
+```
+Copyright 2026 Dennis Lang (LanDen Labs)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+See [LICENSE](LICENSE) for the full license text.
+
+Note: this project bundles third-party components under various licenses (Apache, Boost, BSD, MIT, ISC, Public Domain); see [license.txt](license.txt) for full third-party notices.
